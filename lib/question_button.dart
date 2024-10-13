@@ -16,7 +16,7 @@ class QuestionButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(40),
           )),
       onPressed: onTap,
-      child: Text(answerText),
+      child: Text(answerText, textAlign: TextAlign.center,),
     );
   }
 }
