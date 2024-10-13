@@ -21,6 +21,7 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
     widget.onSelectAnswer(selectedAnswer);
     setState(() {
       currentQuestionIndex++; // increments the value by 1
+      
     });
   }
 
