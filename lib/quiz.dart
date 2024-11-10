@@ -4,20 +4,29 @@ import 'package:flutter_application_1/questions_screen.dart';
 import 'package:flutter_application_1/result_screen.dart';
 import 'package:flutter_application_1/start_screen.dart';
 
+
 class Quiz extends StatefulWidget {
   const Quiz({super.key});
+
   @override
-  State<StatefulWidget> createState() {
+  State<Quiz> createState() {
     return _QuizState();
   }
 }
 
 class _QuizState extends State<Quiz> {
-  var activeScreen = 'start-screen';
   List<String> selectedAnswers = [];
+  var activeScreen = 'start-screen';
+
+  void switchScreen() {
+    setState(() {
+      activeScreen = 'questions-screen';
+    });
+  }
 
   void chooseAnswer(String answer) {
     selectedAnswers.add(answer);
+
     if (selectedAnswers.length == questions.length) {
       setState(() {
         activeScreen = 'results-screen';
@@ -25,9 +34,10 @@ class _QuizState extends State<Quiz> {
     }
   }
 
-  void switchScreen() {
+  void restartQuiz() {
     setState(() {
-      activeScreen = 'question-screen';
+      selectedAnswers = [];
+      activeScreen = 'questions-screen';
     });
   }
 
@@ -35,24 +45,32 @@ class _QuizState extends State<Quiz> {
   Widget build(context) {
     Widget screenWidget = StartScreen(switchScreen);
 
-    if (activeScreen == 'question-screen') {
+    if (activeScreen == 'questions-screen') {
       screenWidget = QuestionsScreen(
         onSelectAnswer: chooseAnswer,
       );
     }
 
     if (activeScreen == 'results-screen') {
-      screenWidget = ResultScreen(chooseAnswers: selectedAnswers,);
+      screenWidget = ResultsScreen(
+        chosenAnswers: selectedAnswers,
+        onRestart: restartQuiz,
+      );
     }
 
     return MaterialApp(
       home: Scaffold(
         body: Container(
           decoration: const BoxDecoration(
-              gradient: LinearGradient(colors: [
-            Color.fromARGB(255, 253, 253, 253),
-            Color.fromARGB(255, 107, 15, 168)
-          ], begin: Alignment.topLeft, end: Alignment.bottomRight)),
+            gradient: LinearGradient(
+              colors: [
+                Color.fromARGB(255, 78, 13, 151),
+                Color.fromARGB(255, 107, 15, 168),
+              ],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
           child: screenWidget,
         ),
       ),
